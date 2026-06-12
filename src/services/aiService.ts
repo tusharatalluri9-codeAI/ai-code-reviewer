@@ -19,6 +19,29 @@ export async function reviewCode(
   language: Language,
   persona: ReviewPersona,
 ): Promise<CodeReview> {
+  // Mock response for demo
+  if (!API_KEY || API_KEY === "YOUR_ANTHROPIC_KEY_HERE") {
+    return {
+      id: Date.now().toString(),
+      code,
+      language,
+      persona,
+      summary:
+        "This is a demo review. Add your Anthropic API key to see real AI analysis.",
+      issues: [
+        {
+          type: "bug",
+          severity: "critical",
+          line: 4,
+          message: "Off-by-one error in loop condition",
+          suggestion: "Change i <= items.length to i < items.length",
+        },
+      ],
+      improvedCode: code,
+      timestamp: new Date(),
+      loading: false,
+    };
+  }
   const prompt = `
     ${personaPrompts[persona]}
     
